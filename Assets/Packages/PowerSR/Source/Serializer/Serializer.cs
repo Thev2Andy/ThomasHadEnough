@@ -44,10 +44,10 @@ namespace PowerSR
             Value = ((Value != null) ? Value : String.Empty);
 
             List<string> ExistingProperties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-            for (int i = 0; i < ExistingProperties.Count; i++)
+            for (int I = 0; I < ExistingProperties.Count; I++)
             {
-                if (ExistingProperties[i].StartsWith($"{Identifier.Replace(Environment.NewLine, NewlineOperator)}{AssignOperator}")) {
-                    ExistingProperties[i] = $"{Identifier.Replace(Environment.NewLine, NewlineOperator)}{AssignOperator}{Value.ToString().Replace(Environment.NewLine, NewlineOperator)}";
+                if (ExistingProperties[I].StartsWith($"{Identifier.Replace(Environment.NewLine, NewlineOperator)}{AssignOperator}")) {
+                    ExistingProperties[I] = $"{Identifier.Replace(Environment.NewLine, NewlineOperator)}{AssignOperator}{Value.ToString().Replace(Environment.NewLine, NewlineOperator)}";
                     return String.Join(Environment.NewLine, ExistingProperties);
                 }
             }
@@ -71,10 +71,10 @@ namespace PowerSR
             Identifier = ((Identifier != null) ? Identifier : String.Empty);
 
             List<string> Properties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-            for (int i = 0; i < Properties.Count; i++)
+            for (int I = 0; I < Properties.Count; I++)
             {
-                if (Properties[i].StartsWith(Identifier.Replace(Environment.NewLine, NewlineOperator))) {
-                    return (Properties[i].Remove(0, ($"{Identifier.Replace(Environment.NewLine, NewlineOperator)}{AssignOperator}").Length)).Replace(NewlineOperator, Environment.NewLine);
+                if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, NewlineOperator))) {
+                    return (Properties[I].Remove(0, ($"{Identifier.Replace(Environment.NewLine, NewlineOperator)}{AssignOperator}").Length)).Replace(NewlineOperator, Environment.NewLine);
                 }
             }
 
@@ -96,10 +96,10 @@ namespace PowerSR
             Identifier = ((Identifier != null) ? Identifier : String.Empty);
 
             List<string> Properties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
-            for (int i = 0; i < Properties.Count; i++)
+            for (int I = 0; I < Properties.Count; I++)
             {
-                if (Properties[i].StartsWith(Identifier.Replace(Environment.NewLine, NewlineOperator))) {
-                    Properties.RemoveAt(i);
+                if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, NewlineOperator))) {
+                    Properties.RemoveAt(I);
                     break;
                 }
             }
