@@ -7,51 +7,38 @@ using PowerSR;
 
 public static class Settings
 {
-    public static string EditorSettingsFileContent;
+    // Events..
+    public static event Action SettingsChanged;
 
     // Properties..
-    public static string SettingsFilePath {
+    public static string SettingsFileContent
+    {
         get {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.psr");
+            return PlayerPrefs.GetString("SettingsFileContent", String.Empty);
+        }
+
+        set {
+            PlayerPrefs.SetString("SettingsFileContent", value);
         }
     }
 
 
 
     public static void Set(string SettingID, System.Object SettingValue)
-    { 
-        string SettingsFileContent = ((!Application.isEditor) ? File.ReadAllText(SettingsFilePath) : EditorSettingsFileContent);
-        SettingsFileContent = SettingsFileContent.Set(SettingID, SettingValue);
-
-
-        if (!Application.isEditor) {
-            File.WriteAllText(SettingsFilePath, SettingsFileContent);
-        }
-
-        else {
-            EditorSettingsFileContent = SettingsFileContent;
-        }
+    {
+        Settings.SettingsFileContent = Settings.SettingsFileContent.Set(SettingID, SettingValue);
+        SettingsChanged?.Invoke();
     }
 
     public static System.Object Get(string SettingID, System.Object Default = null)
     {
-        string SettingsFileContent = ((!Application.isEditor) ? File.ReadAllText(SettingsFilePath) : EditorSettingsFileContent);
-        System.Object RetrievedObject = SettingsFileContent.Get(SettingID);
+        System.Object RetrievedObject = Settings.SettingsFileContent.Get(SettingID);
         return ((RetrievedObject != null) ? RetrievedObject : Default);
     }
 
     public static void Delete(string SettingID)
     {
-        string SettingsFileContent = ((!Application.isEditor) ? File.ReadAllText(SettingsFilePath) : EditorSettingsFileContent);
-        SettingsFileContent = SettingsFileContent.Delete(SettingID);
-
-
-        if (!Application.isEditor) {
-            File.WriteAllText(SettingsFilePath, SettingsFileContent);
-        }
-
-        else {
-            EditorSettingsFileContent = SettingsFileContent;
-        }
+        Settings.SettingsFileContent = Settings.SettingsFileContent.Delete(SettingID);
+        SettingsChanged?.Invoke();
     }
 }

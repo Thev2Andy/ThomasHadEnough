@@ -37,10 +37,13 @@ public class RangedWeapon : MonoBehaviour
 
     private void Update()
     {
-        Look.PointTorwards(LookCamera.ScreenToWorldPoint(Input.mousePosition), LookOffset, true);
-        if (((Automatic) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)) && ShotTimer <= 0) Shoot();
+        if (!PauseMenu.Instance.IsPaused)
+        {
+            Look.PointTorwards(LookCamera.ScreenToWorldPoint(Input.mousePosition), LookOffset, true);
+            if (((Automatic) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)) && ShotTimer <= 0) this.Shoot();
 
-        if (ShotTimer > 0) ShotTimer -= Time.deltaTime;
+            if (ShotTimer > 0) ShotTimer -= Time.deltaTime;
+        }
     }
 
     public void Shoot()
