@@ -1,5 +1,5 @@
-# Rogue Approaching
-Rogue Approaching is a rogue-lite game where the player needs to get to the end of a procedurally generated level.
+# Thomas Had Enough
+Thomas Had Enough is a rogue-lite game inspired by Thomas Was Alone where the player needs to fight his way to the end of procedurally generated levels.
 
 Game submission to Brackeys Game Jam 9. (Theme: *An end is a new beginning**)
 
@@ -12,4 +12,4 @@ Render Pipeline: Universal RP, 2D Renderer.
 *None for now.*
 
 ## Roadmap:
-Game Roadmap: [GitHub Project](https://github.com/Thev2Andy/RogueApproaching/projects/1).
+Game Roadmap: [GitHub Project](https://github.com/Thev2Andy/ThomasHadEnough/projects/1).
