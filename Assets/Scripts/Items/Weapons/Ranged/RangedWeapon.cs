@@ -10,6 +10,7 @@ public class RangedWeapon : MonoBehaviour
     public GameObject MuzzleFlash;
     public AudioClip ShootSound;
     public float Range;
+    public int Damage;
     public float ImpactForce;
     public GameObject ImpactEffect;
     public int ImpactParticleCount;
@@ -34,6 +35,7 @@ public class RangedWeapon : MonoBehaviour
 
     // Private / Hidden variables..
     private float ShotTimer;
+    private bool ShotBefore;
 
     private void Update()
     {
@@ -43,6 +45,9 @@ public class RangedWeapon : MonoBehaviour
             if (((Automatic) ? Input.GetKey(KeyCode.Mouse0) : Input.GetKeyDown(KeyCode.Mouse0)) && ShotTimer <= 0) this.Shoot();
 
             if (ShotTimer > 0) ShotTimer -= Time.deltaTime;
+            if (!ShotBefore) {
+                PromptController.Instance.Show("<b>Left Click</b> to shoot.");
+            }
         }
     }
 
@@ -50,6 +55,14 @@ public class RangedWeapon : MonoBehaviour
     {
         RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up);
         ShotTimer = 60 / RateOfFireInRPM;
+
+
+        if (!ShotBefore) {
+            PromptController.Instance.Clear();
+        }
+        
+        ShotBefore = true;
+
 
         if (Hit)
         {
@@ -71,7 +84,9 @@ public class RangedWeapon : MonoBehaviour
                 BulletImpact.SetParticles(Particles, Particles.Length);
             }
 
-            Debug.DrawLine(FirePoint.position, Hit.point);
+            if (Hit.transform.gameObject.TryGetComponent<EnemyAI>(out EnemyAI Enemy)) {
+                Enemy.Damage(Damage);
+            }
         }
 
         CameraShaker.Instance.ShakeOnce((Magnitude * (float.Parse((Settings.Get("Screenshake Intensity", 1f).ToString())))), Roughness, FadeInTime, FadeOutTime);

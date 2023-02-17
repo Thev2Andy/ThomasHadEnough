@@ -49,8 +49,15 @@ public class Inventory : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.E) && Pickup != null) {
-            this.Pickup(Pickup);
+        if (Pickup != null)
+        {
+            PromptController.Instance.Show("Press <b>E</b> to pick up.", float.Epsilon);
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                PromptController.Instance.Clear();
+                this.Pickup(Pickup);
+            }
         }
     }
 
@@ -59,12 +66,17 @@ public class Inventory : MonoBehaviour
         Entry NewActiveEntry = null;
         for (int I = 0; I < AvailableEntries.Length; I++)
         {
+            for (int J = 0; J < AvailableEntries[J].ObjectsToDisableOnSwitch.Length; J++) {
+                AvailableEntries[J].ObjectsToDisableOnSwitch[J].SetActive(false);
+            }
+
             if (AvailableEntries[I].Identifier == Pickup.Identifier)
             {
                 NewActiveEntry = AvailableEntries[I];
                 break;
             }
         }
+
 
         if (NewActiveEntry != null)
         {
@@ -118,5 +130,6 @@ public class Inventory : MonoBehaviour
         public GameObject WeaponObject;
         public GameObject PickupPrefab;
         public Transform DropPoint;
+        public GameObject[] ObjectsToDisableOnSwitch;
     }
 }

@@ -9,7 +9,10 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseUI;
     public GameObject[] OtherUserInterfaces;
     public int MenuSceneIndex;
-    
+
+    // Private / Hidden variables..
+    private float OldTimescale;
+
     // Singletons..
     public static PauseMenu Instance;
 
@@ -47,6 +50,7 @@ public class PauseMenu : MonoBehaviour
             OtherUserInterfaces[I].SetActive(false);
         }
 
+        OldTimescale = Time.timeScale;
         Time.timeScale = 0f;
         IsPaused = true;
     }
@@ -60,7 +64,7 @@ public class PauseMenu : MonoBehaviour
             OtherUserInterfaces[I].SetActive(false);
         }
 
-        Time.timeScale = 1f;
+        Time.timeScale = OldTimescale;
         IsPaused = false;
     }
 

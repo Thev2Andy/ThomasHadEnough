@@ -11,7 +11,7 @@ public class HealthSystem : MonoBehaviour
     public Color[] PlayerColorPalette;
     public GameObject[] PlayerControllerObjects;
     public GameObject[] ObjectsToDisable;
-    public float HorizontalKnockbackMultiplier;
+    public float KnockbackMultiplier;
     public float RespawnDelay;
     public float StaticRagdollTorqueMultiplier;
     public float RagdollTorqueForce;
@@ -27,25 +27,16 @@ public class HealthSystem : MonoBehaviour
 
     // Private / Hidden variables..
     [HideInInspector] public int InitialHealth;
-    private bool IsDead;
-    private int LastHealth;
+    [HideInInspector] public int LastHealth;
+    [HideInInspector] public bool IsDead;
+    [HideInInspector] public bool Stunned;
     private bool WasDamaged;
-    private bool Stunned;
 
-
-    private void Awake()
-    {
-        PlayerRenderer.color = PlayerColorPalette[Random.Range(0, PlayerColorPalette.Length)];
-        InitialHealth = Health;
-    }
 
     private void Update()
     {
         if (!PauseMenu.Instance.IsPaused)
         {
-            if (Input.GetKeyDown(KeyCode.V)) PlayerRenderer.color = PlayerColorPalette[Random.Range(0, PlayerColorPalette.Length)];
-            if (Input.GetKeyDown(KeyCode.B)) this.Damage((this.InitialHealth / 10), new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y));
-
             float HurtWeightTarget = (1f - (((float)Health) / ((float)InitialHealth)));
             HurtFXVolume.weight = Mathf.Lerp(HurtFXVolume.weight, HurtWeightTarget, Mathf.Clamp01((Time.deltaTime * 0.95f)));
 
@@ -70,7 +61,7 @@ public class HealthSystem : MonoBehaviour
                 Inventory?.Drop(false);
                 IsDead = true;
 
-
+                PromptController.Instance.Clear();
                 this.StartCoroutine(Respawn());
             }
 
@@ -90,7 +81,7 @@ public class HealthSystem : MonoBehaviour
                 Vector2 KnockbackDirection = new Vector2(this.transform.position.x, this.transform.position.y) - new Vector2((((Vector2)DamageLocation).x), (((Vector2)DamageLocation).y));
                 KnockbackDirection.Normalize();
 
-                Rigidbody.velocity += (KnockbackDirection * (Damage / 5) * HorizontalKnockbackMultiplier);
+                Rigidbody.velocity += (KnockbackDirection * (Damage / 5) * KnockbackMultiplier);
 
 
                 if (CharacterController.enabled) {
@@ -152,5 +143,13 @@ public class HealthSystem : MonoBehaviour
         if (Stunned) {
             CharacterController.enabled = true;
         }
+    }
+
+
+    private void Awake()
+    {
+        PlayerRenderer.color = PlayerColorPalette[Random.Range(0, PlayerColorPalette.Length)];
+        Health = Mathf.Max(Health, 1);
+        InitialHealth = Health;
     }
 }
