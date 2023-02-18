@@ -61,6 +61,17 @@ public class HealthSystem : MonoBehaviour
                 Inventory?.Drop(false);
                 IsDead = true;
 
+
+
+                for (int I = 0; I < PlayerControllerObjects.Length; I++) {
+                    PlayerControllerObjects[I].SetActive(false);
+                }
+
+                for (int I = 0; I < ObjectsToDisable.Length; I++) {
+                    ObjectsToDisable[I].SetActive(false);
+                }
+
+                Rigidbody.simulated = false;
                 PromptController.Instance.Clear();
                 this.StartCoroutine(Respawn());
             }
@@ -101,21 +112,9 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public IEnumerator Respawn()
+    public IEnumerator Respawn(float RespawnDelayOverride = float.NaN)
     {
-        for (int I = 0; I < PlayerControllerObjects.Length; I++)
-        {
-            PlayerControllerObjects[I].SetActive(false);
-        }
-
-        for (int I = 0; I < ObjectsToDisable.Length; I++)
-        {
-            ObjectsToDisable[I].SetActive(false);
-        }
-
-        Rigidbody.simulated = false;
-
-        yield return new WaitForSeconds(RespawnDelay);
+        yield return new WaitForSeconds(((!float.IsNaN(RespawnDelayOverride)) ? RespawnDelayOverride : RespawnDelay));
 
         for (int I = 0; I < PlayerControllerObjects.Length; I++)
         {
