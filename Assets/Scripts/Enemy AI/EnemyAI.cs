@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using CameraShake;
 using UnityEngine;
-using CameraShake;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -14,13 +12,16 @@ public class EnemyAI : MonoBehaviour
     public GameObject[] ObjectsToDestroy;
     public AudioSource EnemyAudioSource;
     public AudioClip HitSound;
+    public AudioClip DeathSound;
     public GameObject WeaponObject;
     public float RagdollColliderLifetime;
     public float RagdollTotalLifetime;
     public int Health;
     public float Range;
-    public Vector2 RagdollForce;
-    public float RagdollTorque;
+    public float InitialStaticRagdollTorqueMultiplier;
+    public float InitialRagdollTorque;
+    public Vector2 DespawningRagdollForce;
+    public float DespawningRagdollTorque;
 
     [Header("Drop Settings")]
     public GameObject PickupPrefab;
@@ -137,9 +138,9 @@ public class EnemyAI : MonoBehaviour
 
     public void Damage(int Damage)
     {
-        this.EnemyAudioSource.PlayOneShot(HitSound);
         this.WasDamaged = true;
         this.Health -= Damage;
+        this.EnemyAudioSource.PlayOneShot(((Health > 0) ? HitSound : DeathSound));
 
         if (Health <= 0)
         {
@@ -165,9 +166,12 @@ public class EnemyAI : MonoBehaviour
 
             this.gameObject.layer = LayerMask.NameToLayer("Debris");
 
+            Rigidbody2D RagdollRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+            RagdollRigidbody.AddTorque((InitialRagdollTorque * -((!float.IsNaN((RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x))) ? (RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x)) : 1f))) * ((RagdollRigidbody.velocity.x == 0f) ? (InitialStaticRagdollTorqueMultiplier * ((Random.Range(-1, 2) >= 0) ? 1 : -1)) : 1f));
+
             DeadBody Body = this.gameObject.AddComponent<DeadBody>();
-            Body.RigidbodyForce = RagdollForce;
-            Body.RigidbodyTorque = RagdollTorque;
+            Body.RigidbodyForce = DespawningRagdollForce;
+            Body.RigidbodyTorque = DespawningRagdollTorque;
             Body.Collider = Collider;
             Body.ColliderLifetime = RagdollColliderLifetime;
             Body.TotalLifetime = RagdollTotalLifetime;

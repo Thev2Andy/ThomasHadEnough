@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 6428259396521315309}
   - component: {fileID: 6428259396521315299}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Pistol Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -749,13 +749,16 @@ MonoBehaviour:
   - {fileID: 6428259395109447277}
   EnemyAudioSource: {fileID: 6428259396521315299}
   HitSound: {fileID: 8300000, guid: 05db8cf1351790a4d9fd2ec034e9228d, type: 3}
+  DeathSound: {fileID: 8300000, guid: 1223bde68e530f74fa9bd28fdab6fe0d, type: 3}
   WeaponObject: {fileID: 6428259396076704247}
   RagdollColliderLifetime: 10
   RagdollTotalLifetime: 15
   Health: 100
   Range: 10
-  RagdollForce: {x: 0.145, y: 4.65}
-  RagdollTorque: 45
+  InitialStaticRagdollTorqueMultiplier: 1.45
+  InitialRagdollTorque: 16.5
+  DespawningRagdollForce: {x: 0.145, y: 4.65}
+  DespawningRagdollTorque: 45
   PickupPrefab: {fileID: 8979541366186314557, guid: 2a3492c4027e0224b9bab05617243a4c,
     type: 3}
   DropPoint: {fileID: 6428259396607175281}
@@ -824,7 +827,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.45
   m_Pitch: 1
   Loop: 0
   Mute: 0
