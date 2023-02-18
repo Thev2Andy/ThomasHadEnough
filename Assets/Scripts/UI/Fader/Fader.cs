@@ -42,9 +42,6 @@ public class Fader : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N)) this.FadeOut(0.95f);
-        if (Input.GetKeyDown(KeyCode.M)) this.FadeIn(0.95f);
-
         if (IsFadingOut)
         {
             FaderImage.color = new Color(FaderImage.color.r, FaderImage.color.g, FaderImage.color.b, Mathf.Lerp(FaderImage.color.a, 0f, (1 - Mathf.Exp(-InterpolationTime * Time.deltaTime))));
