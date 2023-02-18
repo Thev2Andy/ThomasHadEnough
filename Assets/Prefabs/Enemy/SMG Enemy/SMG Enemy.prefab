@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 3914128649168389710}
   - component: {fileID: 3914128649168389711}
   - component: {fileID: 3914128649168389697}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SMG Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,6 +118,9 @@ MonoBehaviour:
   ShootSound: {fileID: 8300000, guid: e1d05ebaec295e148880077a7cd971ee, type: 3}
   WeaponRange: 150
   BaseDamage: 4
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 1847
   ImpactForce: 175
   ImpactEffect: {fileID: 7051322765016691584, guid: b9b844f134afeff48a645f3b572d6bbe,
     type: 3}
@@ -684,6 +687,9 @@ MonoBehaviour:
   ShootSound: {fileID: 8300000, guid: e1d05ebaec295e148880077a7cd971ee, type: 3}
   Range: 150
   Damage: 14
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   ImpactForce: 175
   ImpactEffect: {fileID: 7051322765016691584, guid: b9b844f134afeff48a645f3b572d6bbe,
     type: 3}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7051322765016691587}
   - component: {fileID: 7051322765016691589}
   - component: {fileID: 7051322765016691586}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet Imapct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3790,7 +3790,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1847
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

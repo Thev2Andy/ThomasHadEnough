@@ -32,6 +32,7 @@ public class EnemyAI : MonoBehaviour
     public AudioClip ShootSound;
     public float WeaponRange;
     public int BaseDamage;
+    public LayerMask LayerMask;
     public float ImpactForce;
     public GameObject ImpactEffect;
     public int ImpactParticleCount;
@@ -90,7 +91,7 @@ public class EnemyAI : MonoBehaviour
 
                     if (WeaponShotTimer <= 0f)
                     {
-                        RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up);
+                        RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up, Range, LayerMask);
                         WeaponShotTimer = 60 / RateOfFireInRPM;
 
 
@@ -164,7 +165,7 @@ public class EnemyAI : MonoBehaviour
                 Destroy(ObjectsToDestroy[I]);
             }
 
-            this.gameObject.layer = LayerMask.NameToLayer("Debris");
+            this.gameObject.layer = LayerMask.NameToLayer("Dead Body");
 
             Rigidbody2D RagdollRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
             RagdollRigidbody.AddTorque((InitialRagdollTorque * -((!float.IsNaN((RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x))) ? (RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x)) : 1f))) * ((RagdollRigidbody.velocity.x == 0f) ? (InitialStaticRagdollTorqueMultiplier * ((Random.Range(-1, 2) >= 0) ? 1 : -1)) : 1f));

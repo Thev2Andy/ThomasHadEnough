@@ -18,6 +18,7 @@ public class CharacterController2D : MonoBehaviour
 	[HideInInspector] public bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 	private bool Jumped;
+	private bool OneFrameDelay;
 
 	[Header("Events")]
 	[Space]
@@ -52,6 +53,10 @@ public class CharacterController2D : MonoBehaviour
 		else {
 			// Do nothing.
 		}*/
+
+		if (OneFrameDelay) {
+			OneFrameDelay = false;
+		}
 	}
 
     private void FixedUpdate()
@@ -92,9 +97,10 @@ public class CharacterController2D : MonoBehaviour
             if (m_Grounded && jump && !Jumped)
             {
                 // Add a vertical force to the player.
+                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
                 m_Grounded = false;
                 Jumped = true;
-                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+				OneFrameDelay = true;
             }
         }
 	}
@@ -113,7 +119,8 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-		if (Jumped && m_Grounded) {
+		if (Jumped && m_Grounded && !OneFrameDelay) {
+			Debug.Log($"Stayed in collision with {collision.gameObject.name}, setting Jumped to false..");
 			Jumped = false;
 		}
     }

@@ -11,6 +11,7 @@ public class RangedWeapon : MonoBehaviour
     public AudioClip ShootSound;
     public float Range;
     public int Damage;
+    public LayerMask LayerMask;
     public float ImpactForce;
     public GameObject ImpactEffect;
     public int ImpactParticleCount;
@@ -53,7 +54,7 @@ public class RangedWeapon : MonoBehaviour
 
     public void Shoot()
     {
-        RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up);
+        RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up, Range, LayerMask);
         ShotTimer = 60 / RateOfFireInRPM;
 
 
