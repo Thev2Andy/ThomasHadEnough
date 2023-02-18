@@ -120,7 +120,6 @@ public class CharacterController2D : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
 		if (Jumped && m_Grounded && !OneFrameDelay) {
-			Debug.Log($"Stayed in collision with {collision.gameObject.name}, setting Jumped to false..");
 			Jumped = false;
 		}
     }
