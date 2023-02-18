@@ -38,7 +38,7 @@ public class HealthSystem : MonoBehaviour
         if (!PauseMenu.Instance.IsPaused)
         {
             float HurtWeightTarget = (1f - (((float)Health) / ((float)InitialHealth)));
-            HurtFXVolume.weight = Mathf.Lerp(HurtFXVolume.weight, HurtWeightTarget, Mathf.Clamp01((Time.deltaTime * 0.95f)));
+            HurtFXVolume.weight = Mathf.Lerp(HurtFXVolume.weight, HurtWeightTarget, (1 - Mathf.Exp(-0.95f * Time.deltaTime)));
 
             if (Health < LastHealth && !WasDamaged)
             {
