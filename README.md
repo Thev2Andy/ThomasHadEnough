@@ -1,5 +1,5 @@
 # Thomas Had Enough
-Thomas Had Enough is a rogue-lite game inspired by Thomas Was Alone's artstyle where the player needs to fight his way to the end of procedurally generated levels.
+Thomas Had Enough is a rogue-lite game inspired by Thomas Was Alone's artstyle where the player needs to fight his way to the end of different levels.
 
 Game submission to Brackeys Game Jam 9. (Theme: *An end is a new beginning**)
 
