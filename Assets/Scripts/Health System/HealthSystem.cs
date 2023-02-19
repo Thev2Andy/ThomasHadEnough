@@ -24,6 +24,7 @@ public class HealthSystem : MonoBehaviour
     public Volume HurtFXVolume;
     public int BaseHealthVariation;
     public int Health;
+    public bool StartAtSpawnpoint;
 
     // Private / Hidden variables..
     [HideInInspector] public int InitialHealth;
@@ -116,25 +117,36 @@ public class HealthSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(((!float.IsNaN(RespawnDelayOverride)) ? RespawnDelayOverride : RespawnDelay));
 
+        StartCoroutine(this.TeleportToRandomSpawnpoint());
+
         for (int I = 0; I < PlayerControllerObjects.Length; I++)
         {
             PlayerControllerObjects[I].SetActive(true);
         }
 
-        Rigidbody.simulated = true;
-
-
-        Rigidbody.velocity = Vector2.zero;
-        Rigidbody.angularVelocity = 0f;
 
         Health = Mathf.Clamp((InitialHealth + ((int)((BaseHealthVariation * System.Convert.ToInt32((Settings.Get("Difficulty", 1).ToString()))) * Random.Range(-1f, 1f)))), 1, (InitialHealth + (BaseHealthVariation * System.Convert.ToInt32((Settings.Get("Difficulty", 1).ToString())))));
         PlayerRenderer.color = PlayerColorPalette[Random.Range(0, PlayerColorPalette.Length)];
 
-        GameObject[] SpawnPoints = GameObject.FindGameObjectsWithTag("Spawn Point");
-        if (SpawnPoints.Length > 0) this.transform.position = SpawnPoints[Random.Range(0, SpawnPoints.Length)].transform.position;
+        Rigidbody.simulated = true;
+
+        Rigidbody.velocity = Vector2.zero;
+        Rigidbody.angularVelocity = 0f;
 
         CharacterController.enabled = true;
         IsDead = false;
+    }
+
+    public IEnumerator TeleportToRandomSpawnpoint(bool WaitOneFrame = false) {
+        if (WaitOneFrame) {
+            yield return null;
+        }
+
+        Rigidbody.velocity = Vector2.zero;
+        Rigidbody.angularVelocity = 0f;
+
+        GameObject[] SpawnPoints = GameObject.FindGameObjectsWithTag("Spawn Point");
+        if (SpawnPoints.Length > 0) this.transform.position = SpawnPoints[Random.Range(0, SpawnPoints.Length)].transform.position;
     }
 
     public void OnCollisionStay2D(Collision2D collision)
@@ -144,11 +156,20 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (StartAtSpawnpoint) {
+            StartCoroutine(this.TeleportToRandomSpawnpoint());
+        }
+    }
+
 
     private void Awake()
     {
         PlayerRenderer.color = PlayerColorPalette[Random.Range(0, PlayerColorPalette.Length)];
         Health = Mathf.Max(Health, 1);
         InitialHealth = Health;
+
+        SceneLoader.Instance?.StartLoadingLevel(2);
     }
 }

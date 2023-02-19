@@ -2390,7 +2390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1441482731
 Transform:
   m_ObjectHideFlags: 0
@@ -7341,7 +7341,7 @@ MonoBehaviour:
   - {x: -0.49913645, y: 0.49988115, z: 0}
   m_ShapePathHash: 1824833989
   m_Mesh: {fileID: 0}
-  m_InstanceId: -3902022
+  m_InstanceId: -162718
 --- !u!1 &5911082482354600302
 GameObject:
   m_ObjectHideFlags: 0
@@ -8662,6 +8662,7 @@ MonoBehaviour:
   HurtFXVolume: {fileID: 7589748276555301989}
   BaseHealthVariation: 50
   Health: 100
+  StartAtSpawnpoint: 1
   InitialHealth: 0
   LastHealth: 0
   IsDead: 0

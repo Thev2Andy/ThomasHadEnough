@@ -147,7 +147,8 @@ public class EnemyAI : MonoBehaviour
         {
             GameObject DroppedPickup = Instantiate(PickupPrefab, DropPoint.position, DropPoint.rotation);
             Rigidbody2D PickupRigidbody = DroppedPickup.GetComponent<Rigidbody2D>();
-            Rigidbody.freezeRotation = false;
+            Rigidbody.AddTorque((InitialRagdollTorque * -((!float.IsNaN((Rigidbody.velocity.x / Mathf.Abs(Rigidbody.velocity.x))) ? (Rigidbody.velocity.x / Mathf.Abs(Rigidbody.velocity.x)) : 1f))) * ((Rigidbody.velocity.x == 0f) ? (InitialStaticRagdollTorqueMultiplier * ((Random.Range(-1, 2) >= 0) ? 1 : -1)) : 1f));
+            Rigidbody.constraints = RigidbodyConstraints2D.None;
             if (PickupRigidbody != null)
             {
                 PickupRigidbody.velocity = Rigidbody.velocity;
@@ -165,10 +166,8 @@ public class EnemyAI : MonoBehaviour
                 Destroy(ObjectsToDestroy[I]);
             }
 
-            this.gameObject.layer = LayerMask.NameToLayer("Dead Body");
 
-            Rigidbody2D RagdollRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-            RagdollRigidbody.AddTorque((InitialRagdollTorque * -((!float.IsNaN((RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x))) ? (RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x)) : 1f))) * ((RagdollRigidbody.velocity.x == 0f) ? (InitialStaticRagdollTorqueMultiplier * ((Random.Range(-1, 2) >= 0) ? 1 : -1)) : 1f));
+            this.gameObject.layer = LayerMask.NameToLayer("Dead Body");
 
             DeadBody Body = this.gameObject.AddComponent<DeadBody>();
             Body.RigidbodyForce = DespawningRagdollForce;
@@ -178,6 +177,10 @@ public class EnemyAI : MonoBehaviour
             Body.TotalLifetime = RagdollTotalLifetime;
             Destroy(this);
         }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.DrawWireSphere(this.transform.position, Range);
     }
 
     private void Awake() {
