@@ -17,10 +17,10 @@ public class LookAt2D : MonoBehaviour
         LocalScale = this.transform.localScale;
     }
 
-    public float PointTorwards(Vector2 Target, float Offset, bool EnableFlipping) {
-        Vector3 LookDir = (new Vector3(Target.x, Target.y, 0f) - this.transform.position).normalized;
-        float Angle = Mathf.Atan2(LookDir.y, LookDir.x) * Mathf.Rad2Deg + Offset;
-        this.transform.eulerAngles = new Vector3(0, 0, Angle);
+    public float PointTorwards(Vector2 Target, float Offset, bool EnableFlipping)
+    {
+        Vector3 LookDirection = (new Vector3(Target.x, Target.y, 0f) - this.transform.position).normalized;
+        float Angle = Mathf.Atan2(LookDirection.y, LookDirection.x) * Mathf.Rad2Deg + Offset;
 
         if(EnableFlipping)
         {
@@ -44,6 +44,7 @@ public class LookAt2D : MonoBehaviour
             }
         }
 
+        this.transform.eulerAngles = new Vector3(0, 0, Angle);
         return Angle;
     }
 

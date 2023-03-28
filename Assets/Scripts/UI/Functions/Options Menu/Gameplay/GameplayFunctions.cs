@@ -10,20 +10,18 @@ public class GameplayFunctions : MonoBehaviour
     public TMP_Text DifficultyButton;
     public TMP_Text OverheadArrowButton;
 
-    [Header("Settings")]
-    public float[] ScreenshakePresets;
-    public string[] DifficultyNames;
-
 
     public void ChangeScreenshake()
     {
+        ScreenshakePresets.Intensity[] ScreenShakePresets = ((ScreenshakePresets.Intensity[])System.Enum.GetValues(typeof(ScreenshakePresets.Intensity)));
+
         float CurrentScreenshakePreset = float.Parse((Settings.Get("Screenshake Intensity", 1f).ToString()));
         float SmallestDifference = float.PositiveInfinity;
         int IndexOfClosest = -1;
 
-        for (int I = 0; I < ScreenshakePresets.Length; I++)
+        for (int I = 0; I < ScreenShakePresets.Length; I++)
         {
-            float Difference = Mathf.Abs((CurrentScreenshakePreset - ScreenshakePresets[I]));
+            float Difference = Mathf.Abs((CurrentScreenshakePreset - ScreenshakePresets.RetrieveValue(ScreenShakePresets[I])));
             if (Difference < SmallestDifference)
             {
                 SmallestDifference = Difference;
@@ -32,14 +30,16 @@ public class GameplayFunctions : MonoBehaviour
         }
 
 
-        float NextScreenshakePreset = ScreenshakePresets[((IndexOfClosest != (ScreenshakePresets.Length - 1)) ? (IndexOfClosest + 1) : 0)];
+        float NextScreenshakePreset = ScreenshakePresets.RetrieveValue(ScreenShakePresets[((IndexOfClosest != (ScreenShakePresets.Length - 1)) ? (IndexOfClosest + 1) : 0)]);
         Settings.Set("Screenshake Intensity", NextScreenshakePreset);
     }
 
     public void ChangeDifficulty()
     {
+        DifficultyPresets.Difficulty[] Difficulties = ((DifficultyPresets.Difficulty[])System.Enum.GetValues(typeof(DifficultyPresets.Difficulty)));
+
         int CurrentDifficultyIndex = int.Parse((Settings.Get("Difficulty", 1).ToString()));
-        int NextDifficultyIndex = (((CurrentDifficultyIndex + 1) < DifficultyNames.Length && (CurrentDifficultyIndex + 1) >= 0) ? (CurrentDifficultyIndex + 1) : 0);
+        int NextDifficultyIndex = (((CurrentDifficultyIndex + 1) < Difficulties.Length && (CurrentDifficultyIndex + 1) >= 0) ? (CurrentDifficultyIndex + 1) : 0);
 
         Settings.Set("Difficulty", NextDifficultyIndex);
     }
@@ -57,7 +57,7 @@ public class GameplayFunctions : MonoBehaviour
         ScreenshakeButton.text = $"Screenshake Intensity: {(CurrentCameraShakePreset * 100f)}%";
 
         int CurrentDifficultyIndex = int.Parse((Settings.Get("Difficulty", 1).ToString()));
-        DifficultyButton.text = $"Difficulty: {((CurrentDifficultyIndex < DifficultyNames.Length && CurrentDifficultyIndex >= 0) ? DifficultyNames[CurrentDifficultyIndex] : "Unknown")}";
+        DifficultyButton.text = $"Difficulty: {DifficultyPresets.RetrieveIdentifier(((DifficultyPresets.Difficulty)CurrentDifficultyIndex))}";
 
         bool EnableOverheadArrow = System.Convert.ToBoolean((Settings.Get("Enable Overhead Arrow", true).ToString()));
         OverheadArrowButton.text = $"Overhead Arrow: {((EnableOverheadArrow) ? "On" : "Off")}";

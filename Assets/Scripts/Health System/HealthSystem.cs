@@ -137,7 +137,8 @@ public class HealthSystem : MonoBehaviour
         IsDead = false;
     }
 
-    public IEnumerator TeleportToRandomSpawnpoint(bool WaitOneFrame = false) {
+    public IEnumerator TeleportToRandomSpawnpoint(bool WaitOneFrame = false)
+    {
         if (WaitOneFrame) {
             yield return null;
         }
@@ -170,6 +171,8 @@ public class HealthSystem : MonoBehaviour
         Health = Mathf.Max(Health, 1);
         InitialHealth = Health;
 
+        // We shouldn't really do this, it absolutely breaks the development workflow and makes it impossible for some stuff to work (e.g. a level selection system).
+        // One way to fix this would be to use a singleton, set the index we wish to load, then load it if there is actually an index there.
         SceneLoader.Instance?.StartLoadingLevel(2);
     }
 }

@@ -66,8 +66,8 @@ public class Inventory : MonoBehaviour
         Entry NewActiveEntry = null;
         for (int I = 0; I < AvailableEntries.Length; I++)
         {
-            for (int J = 0; J < AvailableEntries[J].ObjectsToDisableOnSwitch.Length; J++) {
-                AvailableEntries[J].ObjectsToDisableOnSwitch[J].SetActive(false);
+            for (int J = 0; J < AvailableEntries[I].ObjectsToDisableOnSwitch.Length; J++) {
+                AvailableEntries[I].ObjectsToDisableOnSwitch[J].SetActive(false);
             }
 
             if (AvailableEntries[I].Identifier == Pickup.Identifier)
@@ -114,6 +114,13 @@ public class Inventory : MonoBehaviour
             {
                 DroppedPickup.transform.localScale = new Vector3(-DroppedPickup.transform.localScale.x, DroppedPickup.transform.localScale.y, DroppedPickup.transform.localScale.z);
                 DroppedPickup.transform.eulerAngles = new Vector3(DroppedPickup.transform.eulerAngles.x, DroppedPickup.transform.eulerAngles.y, (DroppedPickup.transform.eulerAngles.z + 180));
+            }
+
+            for (int I = 0; I < AvailableEntries.Length; I++)
+            {
+                for (int J = 0; J < AvailableEntries[I].ObjectsToDisableOnSwitch.Length; J++) {
+                    AvailableEntries[I].ObjectsToDisableOnSwitch[J].SetActive(false);
+                }
             }
 
 

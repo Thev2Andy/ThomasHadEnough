@@ -1,4 +1,5 @@
 ﻿using CameraShake;
+using System.Diagnostics;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -9,15 +10,17 @@ public class EnemyAI : MonoBehaviour
     public Collider2D Collider;
     public SpriteRenderer EnemyRenderer;
     public Color[] EnemyColorPalette;
-    public GameObject[] ObjectsToDestroy;
+    public Object[] ObjectsToDestroy;
     public AudioSource EnemyAudioSource;
     public AudioClip HitSound;
     public AudioClip DeathSound;
     public GameObject WeaponObject;
+    public CircleCollider2D PickupResetTrigger;
+    public float AimingSpeed;
     public float RagdollColliderLifetime;
     public float RagdollTotalLifetime;
     public int Health;
-    public float Range;
+    public float DetectionRange;
     public float InitialStaticRagdollTorqueMultiplier;
     public float InitialRagdollTorque;
     public Vector2 DespawningRagdollForce;
@@ -37,8 +40,13 @@ public class EnemyAI : MonoBehaviour
     public GameObject ImpactEffect;
     public int ImpactParticleCount;
     public float ImpactVerticalOffset;
+    public LineRenderer Tracer;
     public Transform FirePoint;
     public AudioSource WeaponAudioSource;
+    public GameObject ShellPrefab;
+    public Transform EjectionPort;
+    public Vector2 EjectionForce;
+    public float EjectionTorque;
     public float RateOfFireInRPM;
 
     [Header("Weapon Recoil Settings")]
@@ -48,6 +56,7 @@ public class EnemyAI : MonoBehaviour
     public float FadeOutTime;
 
     // Private / Hidden variables..
+    private Vector3 OldPlayerPosition;
     private float WeaponShotTimer;
     private int LastHealth;
     private bool WasDamaged;
@@ -57,7 +66,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (!PauseMenu.Instance.IsPaused)
         {
-            Collider2D[] Colliders = Physics2D.OverlapCircleAll(this.transform.position, Range);
+            Collider2D[] Colliders = Physics2D.OverlapCircleAll(this.transform.position, DetectionRange);
             Transform Player = null;
             for (int I = 0; I < Colliders.Length; I++)
             {
@@ -82,16 +91,17 @@ public class EnemyAI : MonoBehaviour
             if (Player != null)
             {
                 Collider.enabled = false;
-                RaycastHit2D PlayerRaycast = Physics2D.Raycast(this.transform.position, (Player.transform.position - this.transform.position), Range);
+                RaycastHit2D PlayerRaycast = Physics2D.Raycast(this.transform.position, (Player.transform.position - this.transform.position), DetectionRange, LayerMask);
                 Collider.enabled = true;
 
                 if (PlayerRaycast.transform == Player)
                 {
-                    WeaponRotator.PointTorwards(Player.transform.position, 0f, true);
+                    Vector3 InterpolatedPosition = Vector3.Lerp(OldPlayerPosition, Player.transform.position, (1 - Mathf.Exp(-AimingSpeed * Time.deltaTime)));
+                    WeaponRotator.PointTorwards(InterpolatedPosition, 0f, true);
 
-                    if (WeaponShotTimer <= 0f)
+                    if (WeaponShotTimer <= 0f || (((DifficultyPresets.Difficulty)int.Parse((Settings.Get("Difficulty", 1).ToString()))) == DifficultyPresets.Difficulty.Unhinged))
                     {
-                        RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up, Range, LayerMask);
+                        RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up, WeaponRange, LayerMask);
                         WeaponShotTimer = 60 / RateOfFireInRPM;
 
 
@@ -100,9 +110,19 @@ public class EnemyAI : MonoBehaviour
                             ParticleSystem BulletImpact = Instantiate(ImpactEffect, (Hit.point + (Hit.normal * ImpactVerticalOffset)), Quaternion.FromToRotation(Vector3.up, Hit.normal)).GetComponent<ParticleSystem>();
                             BulletImpact.Emit(ImpactParticleCount);
 
+                            if (Hit.transform.gameObject.TryGetComponent<HealthSystem>(out HealthSystem PlayerHS)) {
+                                PlayerHS.Damage((BaseDamage * Mathf.Clamp(((int.Parse((Settings.Get("Difficulty", 1).ToString()))) + 1), 1, int.MaxValue)), this.transform.position);
+                            }
+
+                            if (Hit.transform.gameObject.TryGetComponent<EnemyAI>(out EnemyAI Enemy)) {
+                                Enemy.Damage((BaseDamage * Mathf.Clamp(((int.Parse((Settings.Get("Difficulty", 1).ToString()))) + 1), 1, int.MaxValue)));
+                            }
+
                             if (Hit.rigidbody != null)
                             {
-                                Hit.rigidbody.AddForceAtPosition(-(Hit.normal * ImpactForce), Hit.point);
+                                if (Hit.rigidbody != PlayerHS?.GetComponent<Rigidbody>()) {
+                                    Hit.rigidbody.AddForceAtPosition(-(Hit.normal * ImpactForce), Hit.point);
+                                }
 
                                 ParticleSystem.Particle[] Particles = new ParticleSystem.Particle[ImpactParticleCount];
                                 BulletImpact.GetParticles(Particles, ImpactParticleCount);
@@ -114,22 +134,41 @@ public class EnemyAI : MonoBehaviour
 
                                 BulletImpact.SetParticles(Particles, Particles.Length);
                             }
-
-                            if (Hit.transform.gameObject.TryGetComponent<HealthSystem>(out HealthSystem PlayerHS)) {
-                                PlayerHS.Damage((BaseDamage * Mathf.Clamp(((int.Parse((Settings.Get("Difficulty", 1).ToString()))) + 1), 1, int.MaxValue)), this.transform.position);
-                            }
-
-                            if (Hit.transform.gameObject.TryGetComponent<EnemyAI>(out EnemyAI Enemy)) {
-                                Enemy.Damage((BaseDamage * Mathf.Clamp(((int.Parse((Settings.Get("Difficulty", 1).ToString()))) + 1), 1, int.MaxValue)));
-                            }
                         }
 
                         CameraShaker.Instance.ShakeOnce((Magnitude * (float.Parse((Settings.Get("Screenshake Intensity", 1f).ToString())))), Roughness, FadeInTime, FadeOutTime);
+
+
+                        Rigidbody2D EjectedShellRigidbody = Instantiate(ShellPrefab, EjectionPort.transform.position, EjectionPort.transform.rotation).GetComponent<Rigidbody2D>();
+                        EjectedShellRigidbody.velocity = Rigidbody.velocity;
+                        EjectedShellRigidbody.angularVelocity = Rigidbody.angularVelocity;
+
+                        Vector2 PivotEjectionPortDifference = this.transform.position - EjectionPort.transform.position;
+                        PivotEjectionPortDifference.y = 0f;
+                        PivotEjectionPortDifference.Normalize();
+
+                        float TorqueSign = -PivotEjectionPortDifference.x;
+
+                        EjectedShellRigidbody.AddRelativeForce(EjectionForce);
+                        EjectedShellRigidbody.angularVelocity = EjectionTorque * TorqueSign;
+
+
+                        Vector2 FallbackHitPoint = new Ray2D(FirePoint.position, FirePoint.up).GetPoint(WeaponRange);
+                        Tracer.SetPositions(new Vector3[] { FirePoint.transform.position, ((Hit) ? Hit.point : FallbackHitPoint) });
+                        Tracer.gameObject.SetActive(true);
 
                         WeaponAudioSource?.PlayOneShot(ShootSound);
                         MuzzleFlash.SetActive(true);
                     }
                 }
+            }
+
+            if (PickupResetTrigger != null) {
+                PickupResetTrigger.radius = DetectionRange;
+            }
+
+            if (Player != null) {
+                OldPlayerPosition = Player.transform.position;
             }
 
             LastHealth = Health;
@@ -169,7 +208,7 @@ public class EnemyAI : MonoBehaviour
 
             this.gameObject.layer = LayerMask.NameToLayer("Dead Body");
 
-            DeadBody Body = this.gameObject.AddComponent<DeadBody>();
+            Despawnable Body = this.gameObject.AddComponent<Despawnable>();
             Body.RigidbodyForce = DespawningRagdollForce;
             Body.RigidbodyTorque = DespawningRagdollTorque;
             Body.Collider = Collider;
@@ -180,7 +219,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void OnDrawGizmos() {
-        Gizmos.DrawWireSphere(this.transform.position, Range);
+        Gizmos.DrawWireSphere(this.transform.position, DetectionRange);
     }
 
     private void Awake() {

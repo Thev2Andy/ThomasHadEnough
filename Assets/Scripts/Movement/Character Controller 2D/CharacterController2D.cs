@@ -37,7 +37,7 @@ public class CharacterController2D : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		// if (PauseMenu.Instance.Paused) return;
+		// if (PauseMenu.Instance.IsPaused) return;
 		
 
 		/*Vector2 MousePos = LookCamera.ScreenToWorldPoint(Input.mousePosition);

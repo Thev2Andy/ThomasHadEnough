@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadBody : MonoBehaviour
+public class Despawnable : MonoBehaviour
 {
     public float ColliderLifetime;
     public float TotalLifetime;

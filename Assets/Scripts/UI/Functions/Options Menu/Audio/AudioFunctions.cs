@@ -9,19 +9,18 @@ public class AudioFunctions : MonoBehaviour
     public TMP_Text VolumeButton;
     public TMP_Text MuteButton;
 
-    [Header("Settings")]
-    public float[] AudioVolumePresets;
-
 
     public void ChangeVolume()
     {
+        AudioPresets.Volume[] AudioVolumePresets = ((AudioPresets.Volume[])System.Enum.GetValues(typeof(AudioPresets.Volume)));
+
         float CurrentVolumePreset = float.Parse((Settings.Get("Master Volume", 1f).ToString()));
         float SmallestDifference = float.PositiveInfinity;
         int IndexOfClosest = -1;
 
         for (int I = 0; I < AudioVolumePresets.Length; I++)
         {
-            float Difference = Mathf.Abs((CurrentVolumePreset - AudioVolumePresets[I]));
+            float Difference = Mathf.Abs((CurrentVolumePreset - AudioPresets.RetrieveValue(AudioVolumePresets[I])));
             if (Difference < SmallestDifference)
             {
                 SmallestDifference = Difference;
@@ -30,7 +29,7 @@ public class AudioFunctions : MonoBehaviour
         }
 
 
-        float NextVolumePreset = AudioVolumePresets[((IndexOfClosest != (AudioVolumePresets.Length - 1)) ? (IndexOfClosest + 1) : 0)];
+        float NextVolumePreset = AudioPresets.RetrieveValue(AudioVolumePresets[((IndexOfClosest != (AudioVolumePresets.Length - 1)) ? (IndexOfClosest + 1) : 0)]);
         Settings.Set("Master Volume", NextVolumePreset);
     }
 

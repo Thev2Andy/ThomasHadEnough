@@ -16,8 +16,14 @@ public class RangedWeapon : MonoBehaviour
     public GameObject ImpactEffect;
     public int ImpactParticleCount;
     public float ImpactVerticalOffset;
+    public LineRenderer Tracer;
     public Transform FirePoint;
     public AudioSource AudioSource;
+    public Rigidbody2D PlayerRigidbody;
+    public GameObject ShellPrefab;
+    public Transform EjectionPort;
+    public Vector2 EjectionForce;
+    public float EjectionTorque;
     public float RateOfFireInRPM;
     public bool Automatic;
 
@@ -60,9 +66,8 @@ public class RangedWeapon : MonoBehaviour
 
         if (!ShotBefore) {
             PromptController.Instance.Clear();
+            ShotBefore = true;
         }
-        
-        ShotBefore = true;
 
 
         if (Hit)
@@ -91,6 +96,25 @@ public class RangedWeapon : MonoBehaviour
         }
 
         CameraShaker.Instance.ShakeOnce((Magnitude * (float.Parse((Settings.Get("Screenshake Intensity", 1f).ToString())))), Roughness, FadeInTime, FadeOutTime);
+
+
+        Rigidbody2D EjectedShellRigidbody = Instantiate(ShellPrefab, EjectionPort.transform.position, EjectionPort.transform.rotation).GetComponent<Rigidbody2D>();
+        EjectedShellRigidbody.velocity = PlayerRigidbody.velocity;
+        EjectedShellRigidbody.angularVelocity = PlayerRigidbody.angularVelocity;
+
+        Vector2 PivotEjectionPortDifference = this.transform.position - EjectionPort.transform.position;
+        PivotEjectionPortDifference.y = 0f;
+        PivotEjectionPortDifference.Normalize();
+
+        float TorqueSign = -PivotEjectionPortDifference.x;
+
+        EjectedShellRigidbody.AddRelativeForce(EjectionForce);
+        EjectedShellRigidbody.angularVelocity = EjectionTorque * TorqueSign;
+
+
+        Vector2 FallbackHitPoint = new Ray2D(FirePoint.position, FirePoint.up).GetPoint(Range);
+        Tracer.SetPositions(new Vector3[] { FirePoint.transform.position, ((Hit) ? Hit.point : FallbackHitPoint) });
+        Tracer.gameObject.SetActive(true);
 
         AudioSource?.PlayOneShot(ShootSound);
         MuzzleFlash.SetActive(true);
