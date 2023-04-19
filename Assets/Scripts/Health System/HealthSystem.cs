@@ -133,7 +133,8 @@ public class HealthSystem : MonoBehaviour
         Rigidbody.velocity = Vector2.zero;
         Rigidbody.angularVelocity = 0f;
 
-        CharacterController.enabled = true;
+        this.Stun();
+
         IsDead = false;
     }
 
@@ -150,10 +151,18 @@ public class HealthSystem : MonoBehaviour
         if (SpawnPoints.Length > 0) this.transform.position = SpawnPoints[Random.Range(0, SpawnPoints.Length)].transform.position;
     }
 
+    public void Stun() {
+        if (CharacterController.enabled) {
+            CharacterController.enabled = false;
+            Stunned = true;
+        }
+    }
+
     public void OnCollisionStay2D(Collision2D collision)
     {
         if (Stunned) {
             CharacterController.enabled = true;
+            Stunned = false;
         }
     }
 
@@ -162,6 +171,9 @@ public class HealthSystem : MonoBehaviour
         if (StartAtSpawnpoint) {
             StartCoroutine(this.TeleportToRandomSpawnpoint());
         }
+
+        // For now we'll start (and subsequently respawn) the player without any movement, until he lands. (This will probably be removed in the future.)
+        this.Stun();
     }
 
 

@@ -24,6 +24,8 @@ public class RangedWeapon : MonoBehaviour
     public Transform EjectionPort;
     public Vector2 EjectionForce;
     public float EjectionTorque;
+    public float RecoilForce;
+    public bool StunningRecoil;
     public float RateOfFireInRPM;
     public bool Automatic;
 
@@ -34,7 +36,7 @@ public class RangedWeapon : MonoBehaviour
     public float LookOffset;
 
 
-    [Header("Recoil Settings")]
+    [Header("Screenshake Settings")]
     public float Magnitude;
     public float Roughness;
     public float FadeInTime;
@@ -96,6 +98,17 @@ public class RangedWeapon : MonoBehaviour
         }
 
         CameraShaker.Instance.ShakeOnce((Magnitude * (float.Parse((Settings.Get("Screenshake Intensity", 1f).ToString())))), Roughness, FadeInTime, FadeOutTime);
+
+
+        Vector2 RecoilDirection = PlayerRigidbody.transform.position - FirePoint.position;
+        RecoilDirection.Normalize();
+        if (StunningRecoil) {
+            PlayerRigidbody.GetComponent<HealthSystem>()?.Stun();
+        }
+
+        Vector2 RecoilAcceleration = ((RecoilDirection * RecoilForce) / PlayerRigidbody.mass);
+        Vector2 RecoilVelocity = RecoilAcceleration * Time.fixedDeltaTime;
+        PlayerRigidbody.velocity += RecoilVelocity;
 
 
         Rigidbody2D EjectedShellRigidbody = Instantiate(ShellPrefab, EjectionPort.transform.position, EjectionPort.transform.rotation).GetComponent<Rigidbody2D>();

@@ -301,16 +301,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 5911082482558773156, guid: fb885841d1dd5a346bca03a113dc8825,
+        type: 3}
+      propertyPath: RecoilForce
+      value: 92.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5911082483490455630, guid: fb885841d1dd5a346bca03a113dc8825,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1260062141}
+    - target: {fileID: 5911082483688054063, guid: fb885841d1dd5a346bca03a113dc8825,
+        type: 3}
+      propertyPath: RecoilForce
+      value: 92.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5911082483827052758, guid: fb885841d1dd5a346bca03a113dc8825,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1988651726}
+    - target: {fileID: 7878455041795661386, guid: fb885841d1dd5a346bca03a113dc8825,
+        type: 3}
+      propertyPath: RecoilForce
+      value: 195
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878455041795661386, guid: fb885841d1dd5a346bca03a113dc8825,
+        type: 3}
+      propertyPath: StunningRecoil
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8280833529162718101, guid: fb885841d1dd5a346bca03a113dc8825,
         type: 3}
       propertyPath: m_Mesh
