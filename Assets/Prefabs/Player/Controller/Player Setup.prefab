@@ -7338,6 +7338,8 @@ MonoBehaviour:
   EjectionPort: {fileID: 7167046816652257159}
   EjectionForce: {x: 0, y: 14.65}
   EjectionTorque: 450
+  RecoilForce: 195
+  StunningRecoil: 1
   RateOfFireInRPM: 450
   Automatic: 0
   LookCamera: {fileID: 5911082483989817571}
@@ -8690,6 +8692,8 @@ MonoBehaviour:
   EjectionPort: {fileID: 8569427209916231322}
   EjectionForce: {x: 0, y: 14.65}
   EjectionTorque: 450
+  RecoilForce: 92.5
+  StunningRecoil: 0
   RateOfFireInRPM: 600
   Automatic: 0
   LookCamera: {fileID: 5911082483989817571}
@@ -9948,6 +9952,8 @@ MonoBehaviour:
   EjectionPort: {fileID: 1868116982218187942}
   EjectionForce: {x: 0, y: 14.65}
   EjectionTorque: 450
+  RecoilForce: 92.5
+  StunningRecoil: 0
   RateOfFireInRPM: 600
   Automatic: 1
   LookCamera: {fileID: 5911082483989817571}

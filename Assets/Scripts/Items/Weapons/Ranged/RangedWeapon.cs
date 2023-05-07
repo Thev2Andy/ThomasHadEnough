@@ -100,15 +100,18 @@ public class RangedWeapon : MonoBehaviour
         CameraShaker.Instance.ShakeOnce((Magnitude * (float.Parse((Settings.Get("Screenshake Intensity", 1f).ToString())))), Roughness, FadeInTime, FadeOutTime);
 
 
-        Vector2 RecoilDirection = PlayerRigidbody.transform.position - FirePoint.position;
-        RecoilDirection.Normalize();
-        if (StunningRecoil) {
-            PlayerRigidbody.GetComponent<HealthSystem>()?.Stun();
-        }
+        if (!PlayerRigidbody.GetComponent<CharacterController2D>().m_Grounded)
+        {
+            Vector2 RecoilDirection = PlayerRigidbody.transform.position - FirePoint.position;
+            RecoilDirection.Normalize();
+            if (StunningRecoil) {
+                PlayerRigidbody.GetComponent<HealthSystem>()?.Stun();
+            }
 
-        Vector2 RecoilAcceleration = ((RecoilDirection * RecoilForce) / PlayerRigidbody.mass);
-        Vector2 RecoilVelocity = RecoilAcceleration * Time.fixedDeltaTime;
-        PlayerRigidbody.velocity += RecoilVelocity;
+            Vector2 RecoilAcceleration = ((RecoilDirection * RecoilForce) / PlayerRigidbody.mass);
+            Vector2 RecoilVelocity = RecoilAcceleration * Time.fixedDeltaTime;
+            PlayerRigidbody.velocity += RecoilVelocity;
+        }
 
 
         Rigidbody2D EjectedShellRigidbody = Instantiate(ShellPrefab, EjectionPort.transform.position, EjectionPort.transform.rotation).GetComponent<Rigidbody2D>();
