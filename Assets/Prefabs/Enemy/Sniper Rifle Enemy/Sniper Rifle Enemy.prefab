@@ -424,7 +424,7 @@ MonoBehaviour:
   - {x: -0.4837935, y: 0.025390625, z: 0}
   m_ShapePathHash: 1631978705
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42608
+  m_InstanceId: 25674
 --- !u!1 &2495198447436999482
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +906,7 @@ MonoBehaviour:
   - {x: -0.49913645, y: 0.49988115, z: 0}
   m_ShapePathHash: 1824833989
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42656
+  m_InstanceId: 25722
 --- !u!1 &6428259395109447277
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,7 +982,6 @@ GameObject:
   - component: {fileID: 6428259396521315308}
   - component: {fileID: 6428259396521315309}
   - component: {fileID: 6428259396521315299}
-  - component: {fileID: 1242951269931281247}
   - component: {fileID: 1690741004138791680}
   m_Layer: 10
   m_Name: Sniper Rifle Enemy
@@ -1039,7 +1038,7 @@ MonoBehaviour:
   - {r: 0.7372549, g: 0.30588236, b: 0.23921569, a: 1}
   ObjectsToDestroy:
   - {fileID: 6428259395109447277}
-  - {fileID: 1242951269931281247}
+  - {fileID: 0}
   - {fileID: 1690741004138791680}
   EnemyAudioSource: {fileID: 6428259396521315299}
   HitSound: {fileID: 8300000, guid: 05db8cf1351790a4d9fd2ec034e9228d, type: 3}
@@ -1216,22 +1215,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1242951269931281247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6428259396521315310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b3ef779643feda4faf544d0c326e06e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineOfSightMask:
-    serializedVersion: 2
-    m_Bits: 823
-  CheckForLineOfSight: 1
 --- !u!58 &1690741004138791680
 CircleCollider2D:
   m_ObjectHideFlags: 0

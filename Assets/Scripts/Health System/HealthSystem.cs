@@ -32,6 +32,7 @@ public class HealthSystem : MonoBehaviour
     [HideInInspector] public bool IsDead;
     [HideInInspector] public bool Stunned;
     private bool WasDamaged;
+    private bool SoftlockDeath;
 
 
     private void Update()
@@ -58,6 +59,9 @@ public class HealthSystem : MonoBehaviour
                 RagdollRigidbody.velocity = Rigidbody.velocity;
                 RagdollRigidbody.angularVelocity = Rigidbody.angularVelocity;
                 RagdollRigidbody.AddTorque((RagdollTorqueForce * -((!float.IsNaN((RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x))) ? (RagdollRigidbody.velocity.x / Mathf.Abs(RagdollRigidbody.velocity.x)) : 1f))) * ((RagdollRigidbody.velocity.x == 0f) ? (StaticRagdollTorqueMultiplier * ((Random.Range(-1, 2) >= 0) ? 1 : -1)) : 1f));
+
+
+                SoftlockDeath = ((Inventory != null && Inventory?.HasWeapon != null) ? !Inventory.HasWeapon : false);
 
                 Inventory?.Drop(false);
                 IsDead = true;
@@ -124,6 +128,15 @@ public class HealthSystem : MonoBehaviour
             PlayerControllerObjects[I].SetActive(true);
         }
 
+        if (SoftlockDeath)
+        {
+            GameObject SoftlockPickupObject = new GameObject("Softlock Pickup");
+            Pickup SoftlockPickup = SoftlockPickupObject.AddComponent<Pickup>();
+            SoftlockPickup.Identifier = Inventory.AvailableEntries[0].Identifier;
+
+            Inventory.Pickup(SoftlockPickup);
+            SoftlockDeath = false;
+        }
 
         Health = Mathf.Clamp((InitialHealth + ((int)((BaseHealthVariation * System.Convert.ToInt32((Settings.Get("Difficulty", 1).ToString()))) * Random.Range(-1f, 1f)))), 1, (InitialHealth + (BaseHealthVariation * System.Convert.ToInt32((Settings.Get("Difficulty", 1).ToString())))));
         PlayerRenderer.color = PlayerColorPalette[Random.Range(0, PlayerColorPalette.Length)];
@@ -151,7 +164,8 @@ public class HealthSystem : MonoBehaviour
         if (SpawnPoints.Length > 0) this.transform.position = SpawnPoints[Random.Range(0, SpawnPoints.Length)].transform.position;
     }
 
-    public void Stun() {
+    public void Stun()
+    {
         if (CharacterController.enabled) {
             CharacterController.enabled = false;
             Stunned = true;
@@ -172,7 +186,6 @@ public class HealthSystem : MonoBehaviour
             StartCoroutine(this.TeleportToRandomSpawnpoint());
         }
 
-        // For now we'll start (and subsequently respawn) the player without any movement, until he lands. (This will probably be removed in the future.)
         this.Stun();
     }
 
@@ -183,8 +196,9 @@ public class HealthSystem : MonoBehaviour
         Health = Mathf.Max(Health, 1);
         InitialHealth = Health;
 
-        // We shouldn't really do this, it absolutely breaks the development workflow and makes it impossible for some stuff to work (e.g. a level selection system).
+        // TODO: We shouldn't really do this, it absolutely breaks the development workflow and makes it impossible for some stuff to work (e.g. a level selection system).
         // One way to fix this would be to use a singleton, set the index we wish to load, then load it if there is actually an index there.
+        // Absolutely don't do this, don't hardcode scene build indices in your code.
         SceneLoader.Instance?.StartLoadingLevel(2);
     }
 }

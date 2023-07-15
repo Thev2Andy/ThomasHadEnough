@@ -288,7 +288,7 @@ MonoBehaviour:
   - {x: -0.49913645, y: 0.49988115, z: 0}
   m_ShapePathHash: 1824833989
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40892
+  m_InstanceId: 25182
 --- !u!1 &6428259395109447277
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +832,7 @@ MonoBehaviour:
   - {x: -0.12227857, y: 0.03341512, z: 0}
   m_ShapePathHash: -327385447
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40938
+  m_InstanceId: 25228
 --- !u!1 &6428259396509874295
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,7 +877,6 @@ GameObject:
   - component: {fileID: 6428259396521315308}
   - component: {fileID: 6428259396521315309}
   - component: {fileID: 6428259396521315299}
-  - component: {fileID: 1288006202929718832}
   - component: {fileID: 852420444360649444}
   m_Layer: 10
   m_Name: Pistol Enemy
@@ -934,7 +933,7 @@ MonoBehaviour:
   - {r: 0.7372549, g: 0.30588236, b: 0.23921569, a: 1}
   ObjectsToDestroy:
   - {fileID: 6428259395109447277}
-  - {fileID: 1288006202929718832}
+  - {fileID: 0}
   - {fileID: 852420444360649444}
   EnemyAudioSource: {fileID: 6428259396521315299}
   HitSound: {fileID: 8300000, guid: 05db8cf1351790a4d9fd2ec034e9228d, type: 3}
@@ -1111,22 +1110,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1288006202929718832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6428259396521315310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b3ef779643feda4faf544d0c326e06e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineOfSightMask:
-    serializedVersion: 2
-    m_Bits: 823
-  CheckForLineOfSight: 1
 --- !u!58 &852420444360649444
 CircleCollider2D:
   m_ObjectHideFlags: 0

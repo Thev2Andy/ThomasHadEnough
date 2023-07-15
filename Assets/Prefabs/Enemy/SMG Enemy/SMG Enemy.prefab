@@ -74,7 +74,6 @@ GameObject:
   - component: {fileID: 3914128649168389710}
   - component: {fileID: 3914128649168389711}
   - component: {fileID: 3914128649168389697}
-  - component: {fileID: 3891710252354176514}
   - component: {fileID: 6022379585030684077}
   m_Layer: 10
   m_Name: SMG Enemy
@@ -131,7 +130,7 @@ MonoBehaviour:
   - {r: 0.7372549, g: 0.30588236, b: 0.23921569, a: 1}
   ObjectsToDestroy:
   - {fileID: 3914128650042354639}
-  - {fileID: 3891710252354176514}
+  - {fileID: 0}
   - {fileID: 6022379585030684077}
   EnemyAudioSource: {fileID: 3914128649168389697}
   HitSound: {fileID: 8300000, guid: 05db8cf1351790a4d9fd2ec034e9228d, type: 3}
@@ -308,22 +307,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3891710252354176514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3914128649168389708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b3ef779643feda4faf544d0c326e06e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineOfSightMask:
-    serializedVersion: 2
-    m_Bits: 823
-  CheckForLineOfSight: 1
 --- !u!58 &6022379585030684077
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -447,7 +430,7 @@ MonoBehaviour:
   - {x: -0.49913645, y: 0.49988115, z: 0}
   m_ShapePathHash: 1824833989
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42164
+  m_InstanceId: 25416
 --- !u!1 &3914128650042354639
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,6 +761,8 @@ MonoBehaviour:
   EjectionPort: {fileID: 0}
   EjectionForce: {x: 0, y: 0}
   EjectionTorque: 0
+  RecoilForce: 0
+  StunningRecoil: 0
   RateOfFireInRPM: 600
   Automatic: 1
   LookCamera: {fileID: 0}
@@ -1059,7 +1044,7 @@ MonoBehaviour:
   - {x: -0.19416153, y: 0.02662301, z: 0}
   m_ShapePathHash: -1023803015
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42212
+  m_InstanceId: 25464
 --- !u!1 &4200459155496474917
 GameObject:
   m_ObjectHideFlags: 0

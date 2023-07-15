@@ -13,6 +13,10 @@ public class SceneLoadTrigger : MonoBehaviour
         {
             SceneLoader.Instance.StartLoadingLevel(SceneToLoad);
             SceneLoader.Instance.PlayerHealthSystem.transform.position = new Vector3(0, 100000, 0);
+            if (SceneLoader.Instance.PlayerHealthSystem.Health < SceneLoader.Instance.PlayerHealthSystem.InitialHealth) {
+                SceneLoader.Instance.PlayerHealthSystem.Health = SceneLoader.Instance.PlayerHealthSystem.InitialHealth;
+            }
+
             Loading = true;
         }
     }

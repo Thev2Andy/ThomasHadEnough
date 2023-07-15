@@ -19,6 +19,9 @@ public class Inventory : MonoBehaviour
     // Private / Hidden variables..
     private Entry ActiveEntry;
 
+    // Properties..
+    public bool HasWeapon { get { return ActiveEntry != null; } }
+
 
 
     private void Update()
@@ -58,6 +61,13 @@ public class Inventory : MonoBehaviour
                 PromptController.Instance.Clear();
                 this.Pickup(Pickup);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasWeapon && !PauseMenu.Instance.IsPaused)
+        {
+            PromptController.Instance.Clear();
+            this.Drop(true);
+            AudioSource.PlayOneShot(PickupSound);
         }
     }
 
