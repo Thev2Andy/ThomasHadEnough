@@ -113,10 +113,18 @@ public class Inventory : MonoBehaviour
                 PickupRigidbody.velocity = PlayerRigidbody.velocity;
                 PickupRigidbody.angularVelocity = PlayerRigidbody.angularVelocity;
 
-                if (Throw) {
+                if (Throw)
+                {
                     PickupRigidbody.AddRelativeForce(new Vector2(HorizontalDropForce, 0f));
                     PickupRigidbody.AddForce(new Vector2(0f, VerticalDropForce));
-                    PickupRigidbody.AddTorque(DropTorque);
+
+
+                    Vector2 PivotDifference = this.transform.position - ActiveEntry.DropPoint.position;
+                    PivotDifference.y = 0f;
+                    PivotDifference.Normalize();
+
+                    float TorqueSign = -PivotDifference.x;
+                    PickupRigidbody.AddTorque((DropTorque * TorqueSign));
                 }
             }
 

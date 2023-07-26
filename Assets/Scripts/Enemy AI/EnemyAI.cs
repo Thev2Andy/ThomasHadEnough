@@ -99,7 +99,7 @@ public class EnemyAI : MonoBehaviour
                     Vector3 InterpolatedPosition = Vector3.Lerp(OldPlayerPosition, Player.transform.position, (1 - Mathf.Exp(-AimingSpeed * Time.deltaTime)));
                     WeaponRotator.PointTorwards(InterpolatedPosition, 0f, true);
 
-                    if (WeaponShotTimer <= 0f || (((DifficultyPresets.Difficulty)int.Parse((Settings.Get("Difficulty", 1).ToString()))) == DifficultyPresets.Difficulty.Unhinged))
+                    if (WeaponShotTimer <= 0f || (((DifficultyPresets.Difficulty)(int.Parse((Settings.Get("Difficulty", 1).ToString()))) == DifficultyPresets.Difficulty.Unhinged)))
                     {
                         RaycastHit2D Hit = Physics2D.Raycast(FirePoint.position, FirePoint.up, WeaponRange, LayerMask);
                         WeaponShotTimer = 60 / RateOfFireInRPM;
