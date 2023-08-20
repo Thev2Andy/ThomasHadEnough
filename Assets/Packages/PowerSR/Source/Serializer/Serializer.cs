@@ -61,7 +61,7 @@ namespace PowerSR
             }));
 
 
-            List<string> ExistingProperties = SerializedString.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> ExistingProperties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             for (int I = 0; I < ExistingProperties.Count; I++)
             {
                 if (ExistingProperties[I].StartsWith($"{Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())}{AssignOperator}")) {
@@ -88,7 +88,7 @@ namespace PowerSR
             SerializedString = ((SerializedString != null) ? SerializedString : String.Empty);
             Identifier = ((Identifier != null) ? Identifier : String.Empty);
 
-            List<string> Properties = SerializedString.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> Properties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             for (int I = 0; I < Properties.Count; I++)
             {
                 if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator()))) {
@@ -121,7 +121,7 @@ namespace PowerSR
             SerializedString = ((SerializedString != null) ? SerializedString : String.Empty);
             Identifier = ((Identifier != null) ? Identifier : String.Empty);
 
-            List<string> Properties = SerializedString.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> Properties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             for (int I = 0; I < Properties.Count; I++)
             {
                 if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator()))) {
