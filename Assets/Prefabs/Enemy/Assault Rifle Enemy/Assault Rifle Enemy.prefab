@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24386941603785575}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.045, y: 0.125, z: 0}
+  m_LocalPosition: {x: -0.0715, y: 0.0075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4200459154193550749}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 3914128649168389697}
   - component: {fileID: 6022379585030684077}
   m_Layer: 10
-  m_Name: SMG Enemy
+  m_Name: Assault Rifle Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,8 +144,8 @@ MonoBehaviour:
   InitialStaticRagdollTorqueMultiplier: 1.45
   InitialRagdollTorque: 16.5
   DespawningRagdollForce: {x: 0.145, y: 4.65}
-  DespawningRagdollTorque: 450
-  PickupPrefab: {fileID: 31567163190231925, guid: 58993612412d9854d8c247388da9f587,
+  DespawningRagdollTorque: 45
+  PickupPrefab: {fileID: 31567163190231925, guid: 97520fd66645dff44b81febd0acdf217,
     type: 3}
   DropPoint: {fileID: 4200459154359015000}
   MuzzleFlash: {fileID: 4200459154633997361}
@@ -154,7 +154,7 @@ MonoBehaviour:
   BaseDamage: 4
   LayerMask:
     serializedVersion: 2
-    m_Bits: 1847
+    m_Bits: 3895
   ImpactForce: 175
   ImpactEffect: {fileID: 7051322765016691584, guid: b9b844f134afeff48a645f3b572d6bbe,
     type: 3}
@@ -169,8 +169,8 @@ MonoBehaviour:
   EjectionForce: {x: 0, y: 14.65}
   EjectionTorque: 45
   RateOfFireInRPM: 600
-  Magnitude: 1.95
-  Roughness: 9.5
+  Magnitude: 2.15
+  Roughness: 6.5
   FadeInTime: 0
   FadeOutTime: 0.45
 --- !u!50 &3914128649168389710
@@ -186,7 +186,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.95
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -429,7 +429,7 @@ MonoBehaviour:
   - {x: -0.49913645, y: 0.49988115, z: 0}
   m_ShapePathHash: 1824833989
   m_Mesh: {fileID: 0}
-  m_InstanceId: 126314
+  m_InstanceId: 126698
 --- !u!1 &3914128650042354639
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +517,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4200459154359015001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.65, y: -0.095, z: 0}
+  m_LocalPosition: {x: 1, y: -0.095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4200459155899276175}
@@ -551,7 +551,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4200459154633997361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.765, y: 0.026, z: 0}
+  m_LocalPosition: {x: 1.045, y: -0.065, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4200459154895902667}
@@ -705,8 +705,9 @@ GameObject:
   - component: {fileID: 4200459155227270463}
   - component: {fileID: 4200459155227270461}
   - component: {fileID: 4200459155227270459}
+  - component: {fileID: 3745256256621587936}
   m_Layer: 0
-  m_Name: SMG
+  m_Name: Assault Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,7 +783,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.65
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -866,6 +867,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!170 &3745256256621587936
+AudioDistortionFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200459155227270456}
+  m_Enabled: 1
+  m_DistortionLevel: 0.65
 --- !u!1 &4200459155479338397
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +888,7 @@ GameObject:
   - component: {fileID: 4200459155479338398}
   - component: {fileID: 4200459155479338399}
   m_Layer: 0
-  m_Name: SMG Sprite
+  m_Name: Assault Rifle Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -937,7 +947,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1100
-  m_Sprite: {fileID: 21300000, guid: 309c2be1abd054646bfbbff9f8f1d298, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b63592db436d15745bb492f95b746fd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -965,41 +975,56 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 
   m_ShapePath:
-  - {x: -0.103179276, y: 0.025555655, z: 0}
-  - {x: -0.1010893, y: -0.1394127, z: 0}
-  - {x: -0.082732856, y: -0.14008021, z: 0}
-  - {x: -0.082732856, y: -0.24721533, z: 0}
-  - {x: -0.025098324, y: -0.24794152, z: 0}
-  - {x: -0.02451402, y: -0.13962492, z: 0}
-  - {x: -0.008639395, y: -0.13974646, z: 0}
-  - {x: -0.008767664, y: -0.02057118, z: 0}
-  - {x: 0.040842056, y: -0.020154193, z: 0}
-  - {x: 0.040511608, y: 0.027195558, z: 0}
-  - {x: 0.14977235, y: 0.026562586, z: 0}
-  - {x: 0.15096581, y: 0.086114496, z: 0}
-  - {x: 0.21601015, y: 0.08656341, z: 0}
-  - {x: 0.21663046, y: 0.11295563, z: 0}
-  - {x: 0.15021253, y: 0.11398761, z: 0}
-  - {x: 0.15015644, y: 0.1718033, z: 0}
-  - {x: 0.14411974, y: 0.1729466, z: 0}
-  - {x: 0.14439934, y: 0.20059867, z: 0}
-  - {x: 0.13240469, y: 0.20040536, z: 0}
-  - {x: 0.13211465, y: 0.17238751, z: 0}
-  - {x: -0.024994433, y: 0.17271307, z: 0}
-  - {x: -0.024755418, y: 0.18977538, z: 0}
-  - {x: -0.03826809, y: 0.19007249, z: 0}
-  - {x: -0.038498342, y: 0.1725075, z: 0}
-  - {x: -0.174433, y: 0.17293163, z: 0}
-  - {x: -0.17546654, y: 0.20014843, z: 0}
-  - {x: -0.18783301, y: 0.20069161, z: 0}
-  - {x: -0.18794888, y: 0.17192976, z: 0}
-  - {x: -0.19444007, y: 0.17162433, z: 0}
-  - {x: -0.19416153, y: 0.02662301, z: 0}
-  m_ShapePathHash: -1023803015
+  - {x: -0.44772947, y: -0.09840876, z: 0}
+  - {x: -0.40664074, y: -0.09755326, z: 0}
+  - {x: -0.35392427, y: -0.05015175, z: 0}
+  - {x: -0.26290393, y: -0.041622195, z: 0}
+  - {x: -0.25998616, y: -0.0015501082, z: 0}
+  - {x: -0.24286799, y: -0.0011610575, z: 0}
+  - {x: -0.24150631, y: -0.03306311, z: 0}
+  - {x: -0.27182373, y: -0.14981532, z: 0}
+  - {x: -0.21526465, y: -0.14909482, z: 0}
+  - {x: -0.19833295, y: -0.088933244, z: 0}
+  - {x: -0.118717924, y: -0.0878525, z: 0}
+  - {x: -0.11784673, y: -0.17087704, z: 0}
+  - {x: -0.025007315, y: -0.17001444, z: 0}
+  - {x: -0.01999586, y: -0.0360713, z: 0}
+  - {x: -0.0043207053, y: -0.035984427, z: 0}
+  - {x: -0.0041426606, y: -0.048091665, z: 0}
+  - {x: 0.33182657, y: -0.04758759, z: 0}
+  - {x: 0.33173403, y: -0.036077607, z: 0}
+  - {x: 0.3503086, y: -0.03570816, z: 0}
+  - {x: 0.35079074, y: -0.003706511, z: 0}
+  - {x: 0.42779136, y: -0.003706512, z: 0}
+  - {x: 0.4279004, y: -0.007868711, z: 0}
+  - {x: 0.44009817, y: -0.0077066505, z: 0}
+  - {x: 0.44009817, y: -0.004087962, z: 0}
+  - {x: 0.44782898, y: -0.004252448, z: 0}
+  - {x: 0.44782898, y: -0.0077066505, z: 0}
+  - {x: 0.5017647, y: -0.0073861703, z: 0}
+  - {x: 0.50090873, y: 0.024255663, z: 0}
+  - {x: 0.44801655, y: 0.023851234, z: 0}
+  - {x: 0.4480229, y: 0.017953862, z: 0}
+  - {x: 0.43988657, y: 0.017811889, z: 0}
+  - {x: 0.439948, y: 0.024268543, z: 0}
+  - {x: 0.42752802, y: 0.02453952, z: 0}
+  - {x: 0.42766544, y: 0.018643707, z: 0}
+  - {x: 0.35030615, y: 0.017359734, z: 0}
+  - {x: 0.35014516, y: 0.045867354, z: 0}
+  - {x: -0.21785319, y: 0.046151344, z: 0}
+  - {x: -0.2179753, y: 0.049815226, z: 0}
+  - {x: -0.2458208, y: 0.049815226, z: 0}
+  - {x: -0.24590342, y: 0.034126446, z: 0}
+  - {x: -0.24210703, y: 0.03403378, z: 0}
+  - {x: -0.24220365, y: 0.030362139, z: 0}
+  - {x: -0.2599821, y: 0.030265518, z: 0}
+  - {x: -0.2598855, y: 0.040314212, z: 0}
+  - {x: -0.44755757, y: 0.04059464, z: 0}
+  m_ShapePathHash: -842138874
   m_Mesh: {fileID: 0}
-  m_InstanceId: 126362
+  m_InstanceId: 126744
 --- !u!1 &4200459155496474917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,7 +1049,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4200459155496474917}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.225, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.0075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4200459154193550749}
