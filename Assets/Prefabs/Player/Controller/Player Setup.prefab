@@ -9705,8 +9705,9 @@ MonoBehaviour:
   - {fileID: 5911082482131040358}
   - {fileID: 5911082482589385530}
   ObjectsToDisable:
-  - {fileID: 5911082482293922486}
-  - {fileID: 5911082482354600302}
+  - {fileID: 5911082482558773160}
+  - {fileID: 5911082483688054067}
+  - {fileID: 5117962180235514572}
   KnockbackMultiplier: 1
   RespawnDelay: 1.5
   StaticRagdollTorqueMultiplier: 1.45
