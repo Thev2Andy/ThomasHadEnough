@@ -63,6 +63,7 @@ public class HealthSystem : MonoBehaviour
 
                 SoftlockDeath = ((Inventory != null && Inventory?.HasWeapon != null) ? !Inventory.HasWeapon : false);
 
+                PromptController.Instance.Clear();
                 Inventory?.Drop(false);
                 IsDead = true;
 
@@ -77,7 +78,6 @@ public class HealthSystem : MonoBehaviour
                 }
 
                 Rigidbody.simulated = false;
-                PromptController.Instance.Clear();
                 this.StartCoroutine(Respawn());
             }
 
