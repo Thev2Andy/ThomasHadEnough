@@ -13,7 +13,8 @@ namespace PowerSR
     /// The class used for serialization.
     /// </summary>
     #endregion
-    [Serializable] public static class Serializer
+    [Serializable]
+    public static class Serializer
     {
         #region NewlineOperatorRegex String XML
         /// <summary>
@@ -37,6 +38,11 @@ namespace PowerSR
         public const string AssignOperator = " = ";
 
 
+        // Private / Inaccessible variables..
+        private static readonly Regex NewlineRegex = new Regex(NewlineOperatorRegex, RegexOptions.Compiled);
+
+
+
         #region Set Method XML
         /// <summary>
         /// Serializes a property.
@@ -53,18 +59,18 @@ namespace PowerSR
             Value = ((Value != null) ? Value : String.Empty);
 
 
-            Regex NewlineRegex = new Regex(NewlineOperatorRegex);
             Value = NewlineRegex.Replace(Value.ToString(), new MatchEvaluator((Match) => {
                 int CurrentNumber = ((Match.Groups[1].Success) ? int.Parse(Match.Groups[1].Value) : 0);
                 int NewNumber = CurrentNumber + 1;
-                return SerializerUtilities.ComposeNewlineOperator(((uint)NewNumber));
+                return SerializerUtilities.ComposeNewlineOperator(NewNumber);
             }));
 
 
             List<string> ExistingProperties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             for (int I = 0; I < ExistingProperties.Count; I++)
             {
-                if (ExistingProperties[I].StartsWith($"{Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())}{AssignOperator}")) {
+                if (ExistingProperties[I].StartsWith($"{Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())}{AssignOperator}"))
+                {
                     ExistingProperties[I] = $"{Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())}{AssignOperator}{Value.ToString().Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())}";
                     return String.Join(Environment.NewLine, ExistingProperties);
                 }
@@ -91,13 +97,13 @@ namespace PowerSR
             List<string> Properties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             for (int I = 0; I < Properties.Count; I++)
             {
-                if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator()))) {
+                if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())))
+                {
                     string Return = Properties[I].Remove(0, ($"{Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())}{AssignOperator}").Length).Replace(SerializerUtilities.ComposeNewlineOperator(), Environment.NewLine);
-                    Regex NewlineRegex = new Regex(NewlineOperatorRegex);
                     Return = NewlineRegex.Replace(Return.ToString(), new MatchEvaluator((Match) => {
                         int CurrentNumber = ((Match.Groups[1].Success) ? int.Parse(Match.Groups[1].Value) : 0);
                         int NewNumber = CurrentNumber - 1;
-                        return ((CurrentNumber > 0) ? SerializerUtilities.ComposeNewlineOperator(((uint)NewNumber)) : Match.Value);
+                        return ((CurrentNumber > 0) ? SerializerUtilities.ComposeNewlineOperator(NewNumber) : Match.Value);
                     }));
 
                     return Return;
@@ -124,7 +130,8 @@ namespace PowerSR
             List<string> Properties = SerializedString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
             for (int I = 0; I < Properties.Count; I++)
             {
-                if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator()))) {
+                if (Properties[I].StartsWith(Identifier.Replace(Environment.NewLine, SerializerUtilities.ComposeNewlineOperator())))
+                {
                     Properties.RemoveAt(I);
                     break;
                 }

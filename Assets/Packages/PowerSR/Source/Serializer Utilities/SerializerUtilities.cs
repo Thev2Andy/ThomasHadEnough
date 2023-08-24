@@ -17,8 +17,10 @@ namespace PowerSR
         /// <summary>
         /// Composes a newline operator with the specified index.
         /// </summary>
+        /// <param name="Index">The newline operator index.</param>
+        /// <returns>The newline operator literal.</returns>
         #endregion
-        public static string ComposeNewlineOperator(uint Index = 0) {
+        public static string ComposeNewlineOperator(int Index = 0) {
             return Serializer.NewlineOperator.Replace("~Index~", ((Index > 0) ? Index.ToString() : String.Empty));
         }
     }
