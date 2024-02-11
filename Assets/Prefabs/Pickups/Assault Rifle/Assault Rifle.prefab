@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 31567161926643409}
   - component: {fileID: 31567161926643408}
   m_Layer: 0
-  m_Name: SMG Sprite
+  m_Name: Assault Rifle Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 0
-  m_ApplyToSortingLayers: 
+  m_ApplyToSortingLayers: 00000000
   m_ShapePath:
   - {x: -0.44751346, y: -0.097473145, z: 0}
   - {x: -0.40725923, y: -0.097473145, z: 0}
@@ -148,7 +148,7 @@ MonoBehaviour:
   - {x: -0.44726294, y: 0.039916992, z: 0}
   m_ShapePathHash: 2074375409
   m_Mesh: {fileID: 0}
-  m_InstanceId: 118300
+  m_InstanceId: 36590
 --- !u!1 &31567162891043399
 GameObject:
   m_ObjectHideFlags: 0
